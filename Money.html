@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แปลงสกุลเงิน</title>
+
+</head>
+<body>
+    <h1>ระบบแปลงสกุลเงิน</h1>
+
+    <div class="converter-box">
+        <!-- แปลงค่าแบบสองทิศทาง -->
+        <label for="amount-one">จำนวนเงิน (ต้นทาง):</label>
+        <input type="number" id="amount-one" placeholder="กรอกจำนวนเงิน" value="1">
+
+        <label for="fromCurrency">จากสกุลเงิน:</label>
+        <div class="swap-row">
+            <select id="fromCurrency">
+                <option value="THB">THB - บาทไทย</option>
+                <option value="USD" selected>USD - ดอลลาร์สหรัฐ</option>
+                <option value="EUR">EUR - ยูโร</option>
+                <option value="JPY">JPY - เยนญี่ปุ่น</option>
+            </select>
+        </div>
+
+        <label for="toCurrency">เป็นสกุลเงิน:</label>
+        <div class="swap-row">
+            <select id="toCurrency">
+                <option value="THB" selected>THB - บาทไทย</option>
+                <option value="USD">USD - ดอลลาร์สหรัฐ</option>
+                <option value="EUR">EUR - ยูโร</option>
+                <option value="JPY">JPY - เยนญี่ปุ่น</option>
+            </select>
+        </div>
+
+        <label for="amount-two">จำนวนเงิน (ปลายทาง):</label>
+        <input type="number" id="amount-two" placeholder="หรือกรอกจำนวนเงินปลายทางเพื่อคำนวณย้อนกลับ">
+
+        <div class="btn-row">
+            <button id="calcBtn" onclick="convertAmountOneToTwo()">คำนวณ</button>
+            <button id="clearDataBtn" onclick="clearData()">ล้างข้อมูล</button>
+        </div>
+
+        <h3 id="result">ผลลัพธ์: -</h3>
+
+        <!-- แสดงเวลาที่อัปเดตล่าสุด -->
+        <div id="lastUpdated">อัปเดตล่าสุด: -</div>
+    </div>
+
+    <!-- ประวัติการแปลงเงินย้อนหลัง 10 รายการล่าสุด -->
+    <div class="history-box">
+        <div class="history-header">
+            <h2>ประวัติการแปลงเงินย้อนหลัง</h2>
+            <button id="clearHistoryBtn" onclick="clearHistory()">ล้างประวัติ</button>
+        </div>
+        <div id="historyList"></div>
+    </div>
+
+    <!-- ส่วนของการเขียนโปรแกรมคำนวณ -->
+    <script>
+        // กำหนดอัตราแลกเปลี่ยนจำลอง (เทียบกับ 1 USD เป็นหลัก)
+        const rates = {
+            USD: 1,
+            THB: 35.0,  // สมมติ 1 ดอลลาร์ = 35 บาท
+            EUR: 0.92,  // สมมติ 1 ดอลลาร์ = 0.92 ยูโร
+            JPY: 150.0  // สมมติ 1 ดอลลาร์ = 150 เยน
+        };
+
+        const HISTORY_KEY = "currencyConversionHistory";
+        const MAX_HISTORY = 10;
+
+        // เวลาที่ข้อมูลอัตราแลกเปลี่ยนถูกโหลด/อัปเดตล่าสุด
+        let lastUpdated = new Date();
+
+        function formatNumber(num) {
+            return Number(num).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function formatTime(date) {
+            return date.toLocaleString("th-TH", {
+                dateStyle: "medium",
+                timeStyle: "medium"
+            });
+        }
+
+        function updateLastUpdatedDisplay() {
+            document.getElementById("lastUpdated").innerText =
+                "อัปเดตล่าสุด: " + formatTime(lastUpdated);
+        }
+
+        // คำนวณจากช่องต้นทาง ไปยังช่องปลายทาง
+        function convertAmountOneToTwo() {
+            const amount = parseFloat(document.getElementById("amount-one").value);
+            const from = document.getElementById("fromCurrency").value;
+            const to = document.getElementById("toCurrency").value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("กรุณากรอกจำนวนเงินให้ถูกต้อง");
+                return;
+            }
+
+            // วิธีคำนวณ: แปลงเงินต้นทางให้เป็น USD ก่อน แล้วค่อยแปลงเป็นเงินปลายทาง
+            const amountInUSD = amount / rates[from];
+            const result = amountInUSD * rates[to];
+
+            document.getElementById("amount-two").value = result.toFixed(2);
+            document.getElementById("result").innerText =
+                "ผลลัพธ์: " + formatNumber(amount) + " " + from + " = " +
+                formatNumber(result) + " " + to;
+
+            addHistory(amount, from, result, to);
+        }
+
+        // คำนวณย้อนกลับจากช่องปลายทาง ไปยังช่องต้นทาง 
+        function convertAmountTwoToOne() {
+            const amount = parseFloat(document.getElementById("amount-two").value);
+            const from = document.getElementById("fromCurrency").value;
+            const to = document.getElementById("toCurrency").value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("กรุณากรอกจำนวนเงินให้ถูกต้อง");
+                return;
+            }
+
+            // วิธีคำนวณย้อนกลับ: แปลงเงินปลายทางให้เป็น USD ก่อน แล้วค่อยแปลงเป็นเงินต้นทาง
+            const amountInUSD = amount / rates[to];
+            const result = amountInUSD * rates[from];
+
+            document.getElementById("amount-one").value = result.toFixed(2);
+            document.getElementById("result").innerText =
+                "ผลลัพธ์: " + formatNumber(amount) + " " + to + " = " +
+                formatNumber(result) + " " + from;
+
+            addHistory(result, from, amount, to);
+        }
+
+        // จัดการประวัติการแปลงเงิน (เก็บใน localStorage)
+        function loadHistory() {
+            const data = localStorage.getItem(HISTORY_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveHistory(history) {
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        }
+
+        function addHistory(fromAmount, fromCur, toAmount, toCur) {
+            let history = loadHistory();
+            const entry = {
+                fromAmount: fromAmount,
+                fromCur: fromCur,
+                toAmount: toAmount,
+                toCur: toCur,
+                time: new Date().toLocaleString("th-TH", {
+                    dateStyle: "short",
+                    timeStyle: "medium"
+                })
+            };
+            history.unshift(entry);
+            if (history.length > MAX_HISTORY) {
+                history = history.slice(0, MAX_HISTORY);
+            }
+            saveHistory(history);
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const history = loadHistory();
+            const container = document.getElementById("historyList");
+
+            if (history.length === 0) {
+                container.innerHTML = '<p class="empty-history">ยังไม่มีประวัติการแปลงเงิน</p>';
+                return;
+            }
+
+            container.innerHTML = history.map(function (h) {
+                return '<div class="history-item">' +
+                    '<span class="history-text">' +
+                    formatNumber(h.fromAmount) + " " + h.fromCur + " &rarr; " +
+                    formatNumber(h.toAmount) + " " + h.toCur +
+                    '</span>' +
+                    '<span class="history-time">' + h.time + '</span>' +
+                    '</div>';
+            }).join("");
+        }
+
+        // ปุ่มล้างประวัติ
+        function clearHistory() {
+            localStorage.removeItem(HISTORY_KEY);
+            renderHistory();
+        }
+
+        // ปุ่มล้างข้อมูล - คืนค่า input ทั้งสองช่องเป็นค่าว่าง/ค่าเริ่มต้น
+        // และเปลี่ยนข้อความสถานะอัตราแลกเปลี่ยนกลับเป็นสถานะเริ่มต้น
+        function clearData() {
+            document.getElementById("amount-one").value = "1";
+            document.getElementById("amount-two").value = "";
+            document.getElementById("fromCurrency").value = "USD";
+            document.getElementById("toCurrency").value = "THB";
+            document.getElementById("result").innerText = "ผลลัพธ์: -";
+
+            // รีเซ็ตเวลาที่อัปเดตล่าสุดกลับเป็นเวลาปัจจุบัน (สถานะเริ่มต้น)
+            lastUpdated = new Date();
+            updateLastUpdatedDisplay();
+        }
+
+        // เมื่อผู้ใช้พิมพ์ในช่องปลายทางโดยตรง ให้คำนวณย้อนกลับอัตโนมัติ
+        document.getElementById("amount-two").addEventListener("change", convertAmountTwoToOne);
+
+        // เริ่มต้นหน้าเว็บ
+        updateLastUpdatedDisplay();
+        renderHistory();
+    </script>
+</body>
+</html>
