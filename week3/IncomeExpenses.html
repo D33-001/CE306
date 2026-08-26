@@ -89,7 +89,7 @@ body { font-family: var(--font-main); background: var(--color-bg); color: var(--
 .search-wrap::before { content: "🔍"; position: absolute; left: 14px; top: 50%;
   transform: translateY(-50%); font-size: 14px; opacity: .6; } /* ไอคอนแว่นขยายลอยในกล่อง */
 
-/* 5) ตารางประวัติรายการ (Task 3) */
+/* 5) ตารางประวัติรายการ */
 .table-wrap { overflow-x: auto; } /* เลื่อนซ้าย-ขวาได้เมื่อจอแคบ */
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 thead th { text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase;
@@ -169,7 +169,7 @@ tbody tr:hover { background: #fafbfc; } /* ไฮไลต์แถวเมื�
       </div>
     </section>
 
-    <!-- ฟอร์มเพิ่มรายการใหม่ (Task 1: มีช่องหมวดหมู่) -->
+    <!-- ฟอร์มเพิ่มรายการใหม่ -->
     <section class="panel">
       <h2>เพิ่มรายการใหม่</h2>
       <form class="add-form" id="txForm">
@@ -203,7 +203,7 @@ tbody tr:hover { background: #fafbfc; } /* ไฮไลต์แถวเมื�
       </form>
     </section>
 
-    <!-- ค้นหา + Task 3: ตาราง + Task 5: ปุ่มล้างข้อมูล -->
+    <!-- ค้นหา + ตาราง + ปุ่มล้างข้อมูล -->
     <section class="panel">
       <h2>ประวัติรายการทั้งหมด</h2>
       <div class="search-wrap">
@@ -289,7 +289,7 @@ typeButtons.forEach(function (btn) {
 });
 
 // ฟังก์ชันวาดตารางประวัติรายการใหม่ทั้งหมด
-// รับ "คำค้นหา" เข้ามาเพื่อกรองรายการแบบ Real-time (Task 2)
+// รับ "คำค้นหา" เข้ามาเพื่อกรองรายการแบบ Real-time
 function renderTransactions() {
   const keyword = searchInput.value.trim().toLowerCase();
 
