@@ -153,7 +153,7 @@ tbody tr:hover { background: #fafbfc; } /* ไฮไลต์แถวเมื�
       </div>
     </div>
 
-    <!-- Task 4: การ์ดสรุป (ตัวเลขอัปเดตจาก JS ผ่าน id) -->
+    <!-- การ์ดสรุป (ตัวเลขอัปเดตจาก JS ผ่าน id) -->
     <section class="summary-grid">
       <div class="summary-card income">
         <div class="label"><span class="icon-dot">↑</span> ยอดรายรับรวม</div>
@@ -203,7 +203,7 @@ tbody tr:hover { background: #fafbfc; } /* ไฮไลต์แถวเมื�
       </form>
     </section>
 
-    <!-- Task 2: ค้นหา + Task 3: ตาราง + Task 5: ปุ่มล้างข้อมูล -->
+    <!-- ค้นหา + Task 3: ตาราง + Task 5: ปุ่มล้างข้อมูล -->
     <section class="panel">
       <h2>ประวัติรายการทั้งหมด</h2>
       <div class="search-wrap">
@@ -288,7 +288,7 @@ typeButtons.forEach(function (btn) {
   });
 });
 
-// TASK 3 + TASK 2: ฟังก์ชันวาดตารางประวัติรายการใหม่ทั้งหมด
+// ฟังก์ชันวาดตารางประวัติรายการใหม่ทั้งหมด
 // รับ "คำค้นหา" เข้ามาเพื่อกรองรายการแบบ Real-time (Task 2)
 function renderTransactions() {
   const keyword = searchInput.value.trim().toLowerCase();
@@ -344,7 +344,7 @@ function renderTransactions() {
   });
 }
 
-// TASK 4: คำนวณและอัปเดตยอดสรุป (รายรับรวม / รายจ่ายรวม / คงเหลือสุทธิ)
+// คำนวณและอัปเดตยอดสรุป (รายรับรวม / รายจ่ายรวม / คงเหลือสุทธิ)
 function updateSummary() {
   let totalIncome = 0;
   let totalExpense = 0;
