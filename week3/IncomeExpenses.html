@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Finance Dashboard</title>
+<style>
+/* 1) ตัวแปรสี/ระยะ/เงา รวมไว้จุดเดียว แก้ที่เดียวเปลี่ยนได้ทั้งเว็บ */
+:root {
+  --color-primary: #5ca2ff; --color-primary-dark: #0f5ed6; --color-primary-light: #eaf2ff; /* โทนฟ้าหลัก/เข้ม/อ่อน */
+  --color-income: #16A34A; --color-income-bg: #e9f9ef;   /* เขียว = รายรับ (ตัวเข้ม/พื้นอ่อน) */
+  --color-expense: #E11D48; --color-expense-bg: #fdeaee; /* แดง = รายจ่าย (ตัวเข้ม/พื้นอ่อน) */
+  --color-bg: #f4f6f9; --color-sidebar: #051e50; --color-card: #fff; /* พื้นหลังหน้า/ไซด์บาร์/การ์ด */
+  --color-text: #1c2433; --color-text-muted: #6b7280; --color-border: #e6e9ef; /* ตัวหนังสือหลัก/รอง/เส้นขอบ */
+  --radius-lg: 18px; --radius-md: 12px; /* ความโค้งมุม: การ์ดใหญ่ / กล่องเล็ก */
+  --shadow-soft: 0 6px 20px rgba(16,24,40,.06); --shadow-card: 0 10px 30px rgba(16,24,40,.08); /* เงา panel / การ์ด */
+  --font-main: 'Segoe UI','Noto Sans Thai',system-ui,sans-serif; /* ฟอนต์หลักรองรับภาษาไทย */
+}
+* { box-sizing: border-box; margin: 0; padding: 0; } /* รีเซ็ตระยะขอบ/padding ให้เท่ากันทุก browser */
+body { font-family: var(--font-main); background: var(--color-bg); color: var(--color-text); min-height: 100vh; }
+
+/* 2) LAYOUT sidebar ซ้าย (260px) ,เนื้อหาขวา (ที่เหลือ) */
+.app-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+/* ---------- SIDEBAR: โลโก้ + เมนู + footer ---------- */
+.sidebar { background: var(--color-sidebar); color: #fff; padding: 28px 22px;
+  display: flex; flex-direction: column; gap: 32px; } /* เรียงแนวตั้ง เว้นระยะระหว่างบล็อก */
+.brand { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; } /* แถวโลโก้ */
+.brand-badge { width: 34px; height: 34px; border-radius: 10px; font-size: 18px;
+  background: linear-gradient(135deg, var(--color-primary), #4fa3ff);
+  display: flex; align-items: center; justify-content: center; } /* ไอคอนสี่เหลี่ยมมุมโค้งข้างโลโก้ */
+.sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.sidebar-nav li { padding: 12px 14px; border-radius: var(--radius-md); font-size: 14.5px; color: #cbd5e1;
+  display: flex; align-items: center; gap: 10px; cursor: pointer; transition: background .2s, color .2s; }
+.sidebar-nav li.active, .sidebar-nav li:hover { background: rgba(255,255,255,.08); color: #fff; } /* เมนูที่เลือก/ชี้อยู่ */
+.sidebar-footer { margin-top: auto; font-size: 12px; color: #64748b; line-height: 1.6; } /* ดันไปชิดล่างสุด */
+
+/* ---------- MAIN CONTENT: หัวข้อหน้า ---------- */
+.main-content { padding: 32px 40px 60px; max-width: 1100px; }
+.page-header { display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+.page-header h1 { font-size: 26px; font-weight: 700; }
+.page-header p { color: var(--color-text-muted); font-size: 14px; margin-top: 4px; }
+
+/* 3) การ์ดสรุปรายรับ/รายจ่าย/คงเหลือ (Task 4) — เรียง 3 คอลัมน์ */
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+.summary-card { background: var(--color-card); border-radius: var(--radius-lg); padding: 22px 24px;
+  box-shadow: var(--shadow-card); border: 1px solid var(--color-border); position: relative; overflow: hidden; }
+.summary-card .label { font-size: 13px; color: var(--color-text-muted);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px; } /* ป้ายข้อความบนสุดของการ์ด */
+.summary-card .icon-dot { width: 28px; height: 28px; border-radius: 50%; font-size: 14px;
+  display: flex; align-items: center; justify-content: center; } /* วงกลมไอคอนหน้าป้าย */
+.summary-card .amount { font-size: 26px; font-weight: 700; letter-spacing: -.5px; }
+/* สีเฉพาะของแต่ละการ์ด: ไอคอน + ตัวเลข ให้เข้าธีมรายรับ/รายจ่าย/คงเหลือ */
+.summary-card.income .icon-dot { background: var(--color-income-bg); color: var(--color-income); }
+.summary-card.income .amount { color: var(--color-income); }
+.summary-card.expense .icon-dot { background: var(--color-expense-bg); color: var(--color-expense); }
+.summary-card.expense .amount { color: var(--color-expense); }
+.summary-card.balance .icon-dot { background: var(--color-primary-light); color: var(--color-primary); }
+.summary-card.balance .amount { color: var(--color-primary); }
+
+/* 4) PANEL กรอบขาว ใช้ทั้งฟอร์มเพิ่มรายการและตารางประวัติ */
+.panel { background: var(--color-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-border); padding: 24px; margin-bottom: 24px; }
+.panel h2 { font-size: 17px; margin-bottom: 16px; }
+
+/* ---------- ฟอร์มเพิ่มรายการ (Task 1: มีช่องหมวดหมู่) ---------- */
+.add-form { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr auto; gap: 12px; align-items: end; } /* ชื่อ/ประเภท/หมวดหมู่/จำนวน/ปุ่ม */
+.field { display: flex; flex-direction: column; gap: 6px; } /* กลุ่ม label+input ต่อช่อง */
+.field label { font-size: 12.5px; color: var(--color-text-muted); font-weight: 600; }
+.field input, .field select { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--color-border);
+  font-size: 14px; font-family: inherit; background: #fafbfc; color: var(--color-text); }
+.field input:focus, .field select:focus { outline: none; border-color: var(--color-primary); background: #fff; } /* ไฮไลต์ตอนกรอก */
+
+/* ---------- ปุ่มทั่วไป ---------- */
+.btn { border: none; border-radius: 10px; padding: 10px 18px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: transform .15s, opacity .15s; }
+.btn:active { transform: scale(.97); } /* กดแล้วยุบเล็กน้อยให้รู้สึกตอบสนอง */
+.btn-primary { background: var(--color-primary); color: #fff; }          /* ปุ่มหลัก: เพิ่มรายการ */
+.btn-primary:hover { background: var(--color-primary-dark); }
+.btn-danger { background: var(--color-expense-bg); color: var(--color-expense); } /* ปุ่มอันตราย: ล้างข้อมูล */
+.btn-danger:hover { opacity: .8; }
+
+/* ---------- ช่องค้นหา (Task 2) ---------- */
+.search-wrap { position: relative; margin-bottom: 18px; }
+.search-wrap input { width: 100%; padding: 12px 16px 12px 40px; border-radius: 10px;
+  border: 1px solid var(--color-border); font-size: 14px; font-family: inherit; background: #fafbfc; } /* เว้นซ้ายให้ไอคอนแว่นขยาย */
+.search-wrap input:focus { outline: none; border-color: var(--color-primary); background: #fff; }
+.search-wrap::before { content: "🔍"; position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%); font-size: 14px; opacity: .6; } /* ไอคอนแว่นขยายลอยในกล่อง */
+
+/* 5) ตารางประวัติรายการ (Task 3) */
+.table-wrap { overflow-x: auto; } /* เลื่อนซ้าย-ขวาได้เมื่อจอแคบ */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th { text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
+tbody td { padding: 14px 12px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+tbody tr:hover { background: #fafbfc; } /* ไฮไลต์แถวเมื่อชี้เมาส์ */
+.tx-name-cell { display: flex; align-items: center; gap: 10px; font-weight: 600; } /* ชื่อรายการ + ไอคอน */
+.tx-emoji { width: 34px; height: 34px; border-radius: 10px; background: var(--color-primary-light);
+  display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; } /* ป้ายกลม */
+.badge.income { background: var(--color-income-bg); color: var(--color-income); }
+.badge.expense { background: var(--color-expense-bg); color: var(--color-expense); }
+.badge.category { background: #f1f3f6; color: var(--color-text-muted); }
+.amount-cell.income { color: var(--color-income); font-weight: 700; }   /* ตัวเลขรายรับสีเขียว */
+.amount-cell.expense { color: var(--color-expense); font-weight: 700; } /* ตัวเลขรายจ่ายสีแดง */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--color-text-muted); font-size: 14px; } /* ข้อความตอนไม่มีรายการ */
+.clear-area { display: flex; justify-content: flex-end; margin-top: 18px; } /* ดันปุ่มล้างข้อมูลไปขวา */
+
+/* ---------- ปุ่มเลือกประเภท (รายรับ/รายจ่าย) แบบ toggle 2 ปุ่ม ---------- */
+.type-toggle { display: flex; gap: 8px; }
+.type-btn { flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--color-border);
+  font-size: 13.5px; font-weight: 600; font-family: inherit; background: #fafbfc; color: var(--color-text-muted);
+  cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.type-btn:hover { opacity: .85; }
+.type-btn.income.active { background: var(--color-income-bg); color: var(--color-income); border-color: var(--color-income); }
+.type-btn.expense.active { background: var(--color-expense-bg); color: var(--color-expense); border-color: var(--color-expense); }
+
+/* ---------- ปุ่มลบรายการทีละแถว ---------- */
+.delete-btn { border: none; background: transparent; color: var(--color-text-muted); cursor: pointer;
+  font-size: 15px; padding: 6px 8px; border-radius: 8px; transition: background .15s, color .15s; }
+.delete-btn:hover { background: var(--color-expense-bg); color: var(--color-expense); }
+
+/* 6) RESPONSIVE: ปรับ layout เมื่อจอแคบกว่า 900px */
+@media (max-width: 900px) {
+  .app-layout { grid-template-columns: 1fr; }                       /* ยุบเหลือคอลัมน์เดียว */
+  .sidebar { flex-direction: row; overflow-x: auto; padding: 16px; } /* sidebar เป็นแถวแนวนอน */
+  .sidebar-nav { flex-direction: row; }
+  .sidebar-footer { display: none; }            /* ซ่อน footer บนจอเล็ก */
+  .summary-grid { grid-template-columns: 1fr; } /* การ์ดสรุปเรียงแถวเดียว */
+  .add-form { grid-template-columns: 1fr; }     /* ฟอร์มเรียงแถวเดียว */
+  .main-content { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR: โลโก้ + เมนู -->
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-badge">💸</div>Income  Expenses</div>
+    <ul class="sidebar-nav"><li class="active">📊 &nbsp;Dashboard</li></ul>
+    <div class="sidebar-footer">Personal Finance Dashboard<br></div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>ภาพรวมการเงินของคุณ</h1>
+        <p>สรุปยอดรายรับ-รายจ่าย และประวัติธุรกรรมทั้งหมด</p>
+      </div>
+    </div>
+
+    <!-- Task 4: การ์ดสรุป (ตัวเลขอัปเดตจาก JS ผ่าน id) -->
+    <section class="summary-grid">
+      <div class="summary-card income">
+        <div class="label"><span class="icon-dot">↑</span> ยอดรายรับรวม</div>
+        <div class="amount" id="totalIncome">฿0.00</div>
+      </div>
+      <div class="summary-card expense">
+        <div class="label"><span class="icon-dot">↓</span> ยอดรายจ่ายรวม</div>
+        <div class="amount" id="totalExpense">฿0.00</div>
+      </div>
+      <div class="summary-card balance">
+        <div class="label"><span class="icon-dot">฿</span> ยอดเงินคงเหลือสุทธิ</div>
+        <div class="amount" id="netBalance">฿0.00</div>
+      </div>
+    </section>
+
+    <!-- ฟอร์มเพิ่มรายการใหม่ (Task 1: มีช่องหมวดหมู่) -->
+    <section class="panel">
+      <h2>เพิ่มรายการใหม่</h2>
+      <form class="add-form" id="txForm">
+        <div class="field">
+          <label for="txName">ชื่อรายการ</label>
+          <input type="text" id="txName" placeholder="เช่น ค่าข้าวเที่ยง" required>
+        </div>
+        <div class="field">
+          <label>ประเภท</label>
+          <div class="type-toggle">
+            <button type="button" class="type-btn income active" data-type="income">รายรับ (Income)</button>
+            <button type="button" class="type-btn expense" data-type="expense">รายจ่าย (Expense)</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="txCategory">หมวดหมู่</label>
+          <select id="txCategory">
+            <option value="food">🍜 อาหาร</option>
+            <option value="travel">🚗 เดินทาง</option>
+            <option value="shopping">🛍️ ช้อปปิ้ง</option>
+            <option value="salary">💵 เงินเดือน</option>
+            <option value="utilities_costs">🏠 ค่าสาธาณูปโภค</option>
+            <option value="other">📦 อื่นๆ</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="txAmount">จำนวนเงิน (บาท)</label>
+          <input type="number" id="txAmount" placeholder="0.00" min="0.01" step="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-primary">+ เพิ่มรายการ</button>
+      </form>
+    </section>
+
+    <!-- Task 2: ค้นหา + Task 3: ตาราง + Task 5: ปุ่มล้างข้อมูล -->
+    <section class="panel">
+      <h2>ประวัติรายการทั้งหมด</h2>
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อรายการ...">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>ประเภท</th><th>ชื่อรายการ</th><th>หมวดหมู่</th><th>วัน/เวลา</th>
+              <th style="text-align:right;">จำนวนเงิน</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody"><!-- JS สร้างแถวรายการมาแสดงตรงนี้ --></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty-state">ยังไม่มีรายการธุรกรรม ลองเพิ่มรายการแรกของคุณด้านบน</div>
+      <div class="clear-area">
+        <button type="button" class="btn btn-danger" id="clearBtn">🗑️ ล้างข้อมูลทั้งหมด</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* PERSONAL FINANCE DASHBOARD — VANILLA JAVASCRIPT */
+
+// 1) STATE: เก็บข้อมูลรายการธุรกรรมทั้งหมดไว้ใน Array นี้
+//    แต่ละรายการ (transaction) เป็น object ที่มี id, ชื่อ, ประเภท, หมวดหมู่, จำนวนเงิน, วันที่
+let transactions = [];
+let nextId = 1; // ใช้เป็นเลขลำดับ/ID ของรายการถัดไป
+let currentType = "income"; // ประเภทที่เลือกอยู่ในฟอร์ม (จากปุ่ม toggle)
+
+// 2) ข้อมูลหมวดหมู่ (Category) — เก็บชื่อไทยและ emoji ไว้ในที่เดียว
+//    เพื่อให้เรียกใช้ซ้ำได้ง่าย ไม่ต้อง hardcode กระจายหลายจุด
+const CATEGORY_INFO = {
+  food:             { label: "อาหาร",   emoji: "🍜" },
+  travel:           { label: "เดินทาง",  emoji: "🚗" },
+  shopping:         { label: "ช้อปปิ้ง",  emoji: "🛍️" },
+  salary:           { label: "เงินเดือน", emoji: "💵" },
+  utilities_costs:  { label: "ค่าสาธาณูปโภค", emoji: "🏠" },
+  other:            { label: "อื่นๆ",     emoji: "📦" }
+};
+
+// 3) อ้างอิง Element ต่างๆ ในหน้าเว็บ (DOM references)
+const txForm       = document.getElementById("txForm");
+const txNameInput  = document.getElementById("txName");
+const typeButtons  = document.querySelectorAll(".type-btn");
+const txCategorySelect = document.getElementById("txCategory");
+const txAmountInput = document.getElementById("txAmount");
+
+const txTableBody  = document.getElementById("txTableBody");
+const emptyState   = document.getElementById("emptyState");
+const searchInput  = document.getElementById("searchInput");
+const clearBtn     = document.getElementById("clearBtn");
+
+const totalIncomeEl  = document.getElementById("totalIncome");
+const totalExpenseEl = document.getElementById("totalExpense");
+const netBalanceEl   = document.getElementById("netBalance");
+
+// Helper: แปลงตัวเลขเป็นรูปแบบเงินบาท เช่น 1234.5 -> "฿1,234.50"
+function formatCurrency(amount) {
+  return "฿" + amount.toLocaleString("th-TH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// Helper: แปลง Date object เป็นข้อความ วัน/เวลา แบบไทย เช่น "26 ส.ค. 2569 14:35"
+function formatDateTime(date) {
+  const datePart = date.toLocaleDateString("th-TH", { day: "2-digit", month: "short", year: "numeric" });
+  const timePart = date.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" });
+  return datePart + " " + timePart;
+}
+
+// สลับปุ่มเลือกประเภท (รายรับ/รายจ่าย) แทน select เดิม
+typeButtons.forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    currentType = btn.getAttribute("data-type");
+    typeButtons.forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+  });
+});
+
+// TASK 3 + TASK 2: ฟังก์ชันวาดตารางประวัติรายการใหม่ทั้งหมด
+// รับ "คำค้นหา" เข้ามาเพื่อกรองรายการแบบ Real-time (Task 2)
+function renderTransactions() {
+  const keyword = searchInput.value.trim().toLowerCase();
+
+  // กรองรายการ: ถ้ามีคำค้นหา ให้เอาเฉพาะรายการที่ชื่อมีคำนั้นอยู่
+  const filtered = transactions.filter(tx =>
+    tx.name.toLowerCase().includes(keyword)
+  );
+
+  // เคลียร์ตารางเดิมก่อนวาดใหม่
+  txTableBody.innerHTML = "";
+
+  if (filtered.length === 0) {
+    emptyState.style.display = "block";
+    // ถ้าไม่มีรายการเลย (ยังไม่เคยเพิ่ม) กับ "ค้นหาไม่เจอ" ให้ข้อความต่างกันเล็กน้อย
+    emptyState.textContent = transactions.length === 0
+      ? "ยังไม่มีรายการธุรกรรม ลองเพิ่มรายการแรกของคุณด้านบน"
+      : "ไม่พบรายการที่ตรงกับคำค้นหา";
+    return;
+  }
+
+  emptyState.style.display = "none";
+
+  // วนลูปสร้างแถวตาราง (<tr>) ทีละรายการ
+  filtered.forEach((tx, index) => {
+    const category = CATEGORY_INFO[tx.category] || CATEGORY_INFO.other;
+    const isIncome = tx.type === "income";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>
+        <span class="badge ${isIncome ? "income" : "expense"}">
+          ${isIncome ? "รายรับ" : "รายจ่าย"}
+        </span>
+      </td>
+      <td>
+        <div class="tx-name-cell">
+          <span class="tx-emoji">${category.emoji}</span>
+          ${tx.name}
+        </div>
+      </td>
+      <td><span class="badge category">${category.label}</span></td>
+      <td>${formatDateTime(tx.date)}</td>
+      <td style="text-align:right;" class="amount-cell ${isIncome ? "income" : "expense"}">
+        ${isIncome ? "+" : "-"}${formatCurrency(tx.amount)}
+      </td>
+      <td style="text-align:right;">
+        <button type="button" class="delete-btn" data-id="${tx.id}" title="ลบรายการนี้">🗑️</button>
+      </td>
+    `;
+    txTableBody.appendChild(row);
+  });
+}
+
+// TASK 4: คำนวณและอัปเดตยอดสรุป (รายรับรวม / รายจ่ายรวม / คงเหลือสุทธิ)
+function updateSummary() {
+  let totalIncome = 0;
+  let totalExpense = 0;
+
+  transactions.forEach(tx => {
+    if (tx.type === "income") {
+      totalIncome += tx.amount;
+    } else {
+      totalExpense += tx.amount;
+    }
+  });
+
+  const netBalance = totalIncome - totalExpense;
+
+  totalIncomeEl.textContent  = formatCurrency(totalIncome);
+  totalExpenseEl.textContent = formatCurrency(totalExpense);
+  netBalanceEl.textContent   = formatCurrency(netBalance);
+}
+
+// รวมการอัปเดตหน้าจอทั้งหมดไว้ในฟังก์ชันเดียว เรียกใช้ทุกครั้งที่ข้อมูลเปลี่ยน
+function refreshUI() {
+  renderTransactions();
+  updateSummary();
+}
+
+// เพิ่มรายการใหม่จากฟอร์ม (submit event)
+txForm.addEventListener("submit", function (event) {
+  event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บ refresh
+
+  const name = txNameInput.value.trim();
+  const type = currentType;
+  const category = txCategorySelect.value;
+  const amount = parseFloat(txAmountInput.value);
+
+  // ตรวจสอบข้อมูลก่อนบันทึก (validation)
+  if (name === "" || isNaN(amount) || amount <= 0) {
+    alert("กรุณากรอกชื่อรายการและจำนวนเงินให้ถูกต้อง");
+    return;
+  }
+
+  // สร้าง object รายการใหม่ แล้วเพิ่มเข้าไปใน array
+  transactions.push({
+    id: nextId++,
+    name: name,
+    type: type,
+    category: category,
+    amount: amount,
+    date: new Date()
+  });
+
+  // เคลียร์ฟอร์มให้พร้อมกรอกรายการถัดไป
+  txForm.reset();
+  txNameInput.focus();
+
+  refreshUI();
+});
+
+// ค้นหาแบบ Real-time — ทุกครั้งที่พิมพ์ ให้วาดตารางใหม่ทันที
+searchInput.addEventListener("input", function () {
+  renderTransactions();
+});
+
+// ลบรายการทีละอัน ผ่านปุ่มลบในแต่ละแถว (ใช้ event delegation ที่ tbody)
+txTableBody.addEventListener("click", function (event) {
+  const btn = event.target.closest(".delete-btn");
+  if (!btn) return;
+
+  const id = parseInt(btn.getAttribute("data-id"), 10);
+  const confirmed = confirm("ลบรายการนี้ออกจากประวัติหรือไม่?");
+  if (!confirmed) return;
+
+  transactions = transactions.filter(tx => tx.id !== id);
+  refreshUI();
+});
+
+// ปุ่มล้างข้อมูลทั้งหมด พร้อมกล่องยืนยัน confirm()
+clearBtn.addEventListener("click", function () {
+  if (transactions.length === 0) {
+    alert("ไม่มีข้อมูลให้ล้าง");
+    return;
+  }
+
+  const confirmed = confirm("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลรายการทั้งหมด?");
+
+  if (confirmed) {
+    transactions = [];   // เคลียร์ array ให้ว่าง
+    nextId = 1;          // รีเซ็ตเลขลำดับกลับไปเริ่มที่ 1
+    searchInput.value = ""; // เคลียร์คำค้นหาด้วย
+    refreshUI();          // อัปเดตหน้าจอ -> ตารางว่าง, ยอดสรุปเป็น ฿0.00
+  }
+});
+
+// เรียกครั้งแรกตอนโหลดหน้าเว็บ เพื่อแสดงสถานะเริ่มต้น (ว่างเปล่า)
+refreshUI();
+</script>
+
+</body>
+</html>
