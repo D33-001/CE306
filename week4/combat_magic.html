@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือการเล่น D&D | การต่อสู้ เวทมนตร์ และคำศัพท์</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Noto+Serif+Thai:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#faf8f5;
+    --parchment-dark:#efe7d8;
+    --crimson:#c1121f;
+    --crimson-dark:#8f0e17;
+    --purple:#3c1361;
+    --purple-dark:#26073f;
+    --ink:#2b241c;
+  }
+  body{ background-color:var(--parchment); font-family:'Sarabun', sans-serif; color:var(--ink); }
+  h1,h2,h3,h4,.font-display{ font-family:'Noto Serif Thai', serif; letter-spacing:.3px; }
+  .navbar{ background:linear-gradient(90deg,var(--purple-dark),var(--purple)); border-bottom:4px solid var(--crimson); }
+  .navbar-brand{ font-family:'Noto Serif Thai', serif; font-weight:800; color:#fff !important; }
+  .navbar .nav-link{ color:#f1e9da !important; font-weight:600; }
+  .navbar .nav-link.active{ color:#fff !important; text-decoration:underline; text-decoration-color:var(--crimson); text-decoration-thickness:3px; text-underline-offset:6px; }
+  .page-header{
+    background:linear-gradient(160deg,var(--purple-dark),var(--purple) 60%,var(--crimson-dark));
+    color:#fdf6ea; padding:3rem 1rem; border-bottom:6px solid var(--crimson);
+  }
+  .section-title{ position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+  .section-title::after{ content:""; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--crimson); border-radius:2px; }
+  .content-card{ background:#fffdf9; border:1px solid #e4d9c4; border-radius:.75rem; box-shadow:0 4px 14px rgba(43,36,28,.06); }
+  .nav-tabs{ border-bottom:2px solid var(--crimson); }
+  .nav-tabs .nav-link{
+    color:var(--ink); font-weight:600; border:none; border-bottom:3px solid transparent;
+  }
+  .nav-tabs .nav-link.active{
+    color:var(--crimson-dark); background:transparent; border-bottom:3px solid var(--crimson);
+  }
+  .step-box{
+    background:#fffdf9; border:1px solid #e4d9c4; border-radius:.75rem; padding:1rem; height:100%;
+  }
+  .step-box .step-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:32px; height:32px; border-radius:50%;
+    background:var(--purple); color:#fff; font-weight:800; margin-bottom:.5rem;
+  }
+  .hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/BGcombat.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+ }
+  .glossary-btn{
+    border:2px solid var(--purple);
+    color:var(--purple-dark);
+    font-weight:600;
+    border-radius:2rem;
+  }
+  .glossary-btn:hover, .glossary-btn:focus{
+    background:var(--purple); color:#fff;
+  }
+  .modal-header{ background:var(--purple); color:#fff; border-bottom:4px solid var(--crimson); }
+  .modal-header .btn-close{ filter:invert(1); }
+  footer{ background:var(--purple-dark); color:#e9dfca; border-top:4px solid var(--crimson); }
+  footer a{ color:#f1e9da; }
+  .skip-link{ position:absolute; left:-999px; top:auto; background:#fff; color:#000; padding:.5rem 1rem; z-index:2000; }
+  .skip-link:focus{ left:1rem; top:1rem; }
+</style>
+</head>
+<body>
+<body class="d-flex flex-column min-vh-100, flex-grow-1">
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="เมนูหลัก">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">D&amp;D Play Guide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="เปิด/ปิดเมนูนำทาง">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="index.html">หน้าแรก</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="rules.html">กฎพื้นฐาน</a></li>
+                <li class="nav-item"><a class="nav-link" href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+</header>
+
+<div class="hero text-center text-white py-5 d-flex flex-column justify-content-center" aria-labelledby="hero-title" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6),
+ rgba(0, 0, 0, 0.6)), url('images/BGcombat.jpg'); background-size: cover; background-position: center; min-height: 75vh;">
+  <div class="container">
+    <h1 class="display-5 mb-2">การต่อสู้ เวทมนตร์ และคำศัพท์</h1>
+    <p class="lead mb-0">ทุกอย่างที่ต้องรู้เมื่อดาบชนดาบและเวทมนตร์เริ่มปะทะ</p>
+  </div>
+</div>
+
+<main id="main" class="py-5">
+  <div class="container">
+ 
+    <ul class="nav nav-tabs mb-4" id="mainTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="combat-tab" data-bs-toggle="tab" data-bs-target="#combat-pane"
+          type="button" role="tab" aria-controls="combat-pane" aria-selected="true">⚔️ การต่อสู้ &amp; การรักษา</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="magic-tab" data-bs-toggle="tab" data-bs-target="#magic-pane"
+          type="button" role="tab" aria-controls="magic-pane" aria-selected="false">✨ การร่ายเวทย์</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="glossary-tab" data-bs-toggle="tab" data-bs-target="#glossary-pane"
+          type="button" role="tab" aria-controls="glossary-pane" aria-selected="false">📖 ดัชนีคำศัพท์</button>
+      </li>
+    </ul>
+ 
+    <div class="tab-content" id="mainTabContent">
+      <!-- TAB 1: COMBAT -->
+      <div class="tab-pane fade show active" id="combat-pane" role="tabpanel" aria-labelledby="combat-tab" tabindex="0">
+        <section aria-labelledby="combat-steps-title" class="mb-5">
+          <h2 id="combat-steps-title" class="section-title h3">ขั้นตอนการต่อสู้</h2>
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+            <div class="col">
+              <div class="step-box text-center">
+                <div class="step-num">1</div>
+                <h3 class="h6">ทอยอินิชิเอทีฟ</h3>
+                <p class="small mb-0">ทุกฝ่ายทอย D20 บวก DEX เพื่อจัดลำดับการกระทำในสนามรบ</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="step-box text-center">
+                <div class="step-num">2</div>
+                <h3 class="h6">เล่นตามลำดับ</h3>
+                <p class="small mb-0">แต่ละฝ่ายผลัดกันกระทำการตามลำดับอินิชิเอทีฟจากมากไปน้อย</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="step-box text-center">
+                <div class="step-num">3</div>
+                <h3 class="h6">เคลื่อนที่ &amp; กระทำการ</h3>
+                <p class="small mb-0">แต่ละเทิร์น ตัวละครเคลื่อนที่ได้ตามความเร็ว และทำ 1 การกระทำหลัก</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="step-box text-center">
+                <div class="step-num">4</div>
+                <h3 class="h6">วนรอบใหม่</h3>
+                <p class="small mb-0">เมื่อทุกฝ่ายกระทำการครบแล้ว วนกลับไปเริ่มรอบใหม่จนกว่าการต่อสู้จะจบ</p>
+              </div>
+            </div>
+          </div>
+        </section>
+ 
+        <section aria-labelledby="hp-title" class="mb-5">
+          <h2 id="hp-title" class="section-title h3">พลังชีวิต (Hit Points)</h2>
+          <p>
+            พลังชีวิต (HP) แสดงถึงความสามารถในการทนทานต่อความเสียหายของตัวละคร เมื่อได้รับความเสียหาย
+            ค่า HP จะลดลงเท่ากับจำนวนนั้น หาก HP ลดลงเหลือ 0 ตัวละครจะล้มลงและหมดสติทันที
+          </p>
+        </section>
+ 
+        <section aria-labelledby="death-save-title">
+          <h2 id="death-save-title" class="section-title h3">การทอยเซฟความตาย (Death Saving Throws)</h2>
+          <p>เมื่อ HP ของตัวละครลดลงเหลือ 0 และยังไม่ตายในทันที ตัวละครจะต้องทอยเซฟความตายในทุกเทิร์นของตนเอง:</p>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="alert alert-success mb-0">
+                <strong>ทอยได้ 10 หรือมากกว่า:</strong> นับเป็นความสำเร็จ 1 ครั้ง หากสำเร็จครบ 3 ครั้ง ตัวละครจะคงที่ (Stable)
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="alert alert-danger mb-0">
+                <strong>ทอยได้ต่ำกว่า 10:</strong> นับเป็นความล้มเหลว 1 ครั้ง หากล้มเหลวครบ 3 ครั้ง ตัวละครจะเสียชีวิต
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+ 
+      <!-- TAB 2: SPELLCASTING -->
+      <div class="tab-pane fade" id="magic-pane" role="tabpanel" aria-labelledby="magic-tab" tabindex="0">
+        <section aria-labelledby="spell-title" class="mb-4">
+          <h2 id="spell-title" class="section-title h3">การร่ายเวทย์ (Spellcasting)</h2>
+          <p>
+            ตัวละครสายเวท เช่น พ่อมดหรือนักบวช สามารถร่ายคาถาเพื่อสร้างผลลัพธ์ต่าง ๆ ไม่ว่าจะเป็นการโจมตี
+            การรักษา หรือการป้องกัน โดยต้องปฏิบัติตามองค์ประกอบของคาถา เช่น คำพูด ท่าทาง หรือส่วนประกอบวัตถุ
+          </p>
+        </section>
+ 
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="content-card p-4 h-100">
+              <h3 class="h5">ระดับคาถา (Spell Level)</h3>
+              <p class="mb-0">
+                คาถาแต่ละอันมีระดับตั้งแต่ 0 (คาถาเวทมนต์เล็กน้อยที่ร่ายได้ไม่จำกัด) ไปจนถึงระดับ 9
+                (เวทมนตร์ทรงพลังที่สุด) ยิ่งระดับสูง พลังของคาถาก็ยิ่งมาก
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="content-card p-4 h-100">
+              <h3 class="h5">ช่องเวทมนตร์ (Spell Slots)</h3>
+              <p class="mb-0">
+                ผู้ร่ายมี "ช่องเวทมนตร์" จำนวนจำกัดในแต่ละระดับ การร่ายคาถาจะใช้ช่องเวทหนึ่งช่องไป
+                และจะกลับมาเต็มอีกครั้งหลังพักยาว
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="content-card p-4 h-100">
+              <h3 class="h5">พื้นที่ผลกระทบ (Area of Effect)</h3>
+              <p class="mb-0">
+                คาถาบางอันส่งผลต่อพื้นที่แทนที่จะเป็นเป้าหมายเดียว เช่น ทรงกลม (Sphere) ทรงกรวย (Cone)
+                เส้นตรง (Line) หรือทรงลูกบาศก์ (Cube) ครอบคลุมทุกสิ่งในบริเวณนั้น
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="content-card p-4 h-100">
+              <h3 class="h5">ระยะและเป้าหมาย</h3>
+              <p class="mb-0">
+                คาถาแต่ละอันระบุระยะที่ร่ายได้ ตั้งแต่สัมผัสตัว (Touch) ไปจนถึงระยะไกลหลายร้อยฟุต
+                รวมถึงจำนวนและประเภทของเป้าหมายที่เลือกได้
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- TAB 3: GLOSSARY -->
+      <div class="tab-pane fade" id="glossary-pane" role="tabpanel" aria-labelledby="glossary-tab" tabindex="0">
+        <section aria-labelledby="glossary-title">
+          <h2 id="glossary-title" class="section-title h3">ดัชนีคำศัพท์ (สถานะผิดปกติ)</h2>
+          <p class="mb-4">คลิกที่คำศัพท์เพื่อดูคำอธิบายผลกระทบของสถานะนั้น</p>
+ 
+          <div class="d-flex flex-wrap gap-2" role="list" aria-label="รายการคำศัพท์สถานะผิดปกติ">
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-blinded">ตาบอด (Blinded)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-charmed">ถูกมนต์สะกด (Charmed)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-grappled">ถูกจับล็อก (Grappled)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-prone">ล้มลุกคลุกคลาน (Prone)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-invisible">ล่องหน (Invisible)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-frightened">หวาดกลัว (Frightened)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-poisoned">ถูกวางยาพิษ (Poisoned)</button>
+            <button type="button" class="btn glossary-btn" data-bs-toggle="modal" data-bs-target="#modal-stunned">มึนงง (Stunned)</button>
+          </div>
+        </section>
+      </div>
+ 
+    </div>
+  </div>
+</main>
+ 
+<!-- Glossary Modals -->
+<div class="modal fade" id="modal-blinded" tabindex="-1" aria-labelledby="modal-blinded-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-blinded-label">ตาบอด (Blinded)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>มองไม่เห็นสิ่งใดเลย และการทดสอบความสามารถที่ต้องใช้การมองเห็นจะล้มเหลวโดยอัตโนมัติ</li>
+          <li>การทอยโจมตีของตัวละครจะเสียเปรียบ (Disadvantage)</li>
+          <li>การทอยโจมตีที่พุ่งเข้าใส่ตัวละครจะได้เปรียบ (Advantage)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-charmed" tabindex="-1" aria-labelledby="modal-charmed-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-charmed-label">ถูกมนต์สะกด (Charmed)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>ไม่สามารถโจมตีหรือทำร้ายผู้ที่สะกดจิตตนเองได้โดยตรงด้วยความสามารถหรือผลกระทบที่เป็นอันตราย</li>
+          <li>ผู้ที่สะกดจิตจะได้เปรียบในการทดสอบทางสังคมที่มีต่อตัวละครนี้</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-grappled" tabindex="-1" aria-labelledby="modal-grappled-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-grappled-label">ถูกจับล็อก (Grappled)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>ความเร็วในการเคลื่อนที่ลดลงเหลือ 0 และไม่ได้รับโบนัสความเร็วใด ๆ</li>
+          <li>สถานะจะสิ้นสุดลงหากผู้ที่จับล็อกหมดสติ หรือตัวละครหลุดออกจากระยะที่ถูกจับ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-prone" tabindex="-1" aria-labelledby="modal-prone-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-prone-label">ล้มลุกคลุกคลาน (Prone)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>เคลื่อนที่ได้เฉพาะการคลานเท่านั้น เว้นแต่จะลุกขึ้นยืนก่อน (ใช้การเคลื่อนที่ครึ่งหนึ่งของความเร็ว)</li>
+          <li>การทอยโจมตีของตัวละครจะเสียเปรียบ</li>
+          <li>การโจมตีระยะประชิดที่พุ่งเข้าใส่ตัวละครจะได้เปรียบ ส่วนการโจมตีระยะไกลจะเสียเปรียบ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-invisible" tabindex="-1" aria-labelledby="modal-invisible-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-invisible-label">ล่องหน (Invisible)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>ถือว่าซ่อนตัวอยู่เสมอ ไม่สามารถมองเห็นได้ด้วยตาเปล่า</li>
+          <li>การทอยโจมตีของตัวละครจะได้เปรียบ ส่วนการโจมตีที่พุ่งเข้าใส่ตัวละครจะเสียเปรียบ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-frightened" tabindex="-1" aria-labelledby="modal-frightened-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-frightened-label">หวาดกลัว (Frightened)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>เสียเปรียบในการทดสอบความสามารถและการโจมตี ตราบใดที่แหล่งความกลัวยังอยู่ในระยะการมองเห็น</li>
+          <li>ไม่สามารถเคลื่อนที่เข้าใกล้แหล่งความกลัวได้โดยสมัครใจ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-poisoned" tabindex="-1" aria-labelledby="modal-poisoned-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-poisoned-label">ถูกวางยาพิษ (Poisoned)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>เสียเปรียบในการทอยโจมตีและการทดสอบความสามารถทุกชนิด จนกว่าสถานะจะหมดไป</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="modal fade" id="modal-stunned" tabindex="-1" aria-labelledby="modal-stunned-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="modal-stunned-label">มึนงง (Stunned)</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>ไร้ความสามารถ (Incapacitated) ไม่สามารถเคลื่อนที่ได้ และพูดได้เพียงตะกุกตะกัก</li>
+          <li>การทอยเซฟ STR และ DEX ล้มเหลวโดยอัตโนมัติ</li>
+          <li>การโจมตีที่พุ่งเข้าใส่ตัวละครจะได้เปรียบ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<footer class="py-4 mt-4, mt-auto">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
+    <p class="mb-0">© 2569 คู่มือการเล่น D&amp;D (ฉบับแปลไทย) — จัดทำเพื่อการศึกษา</p>
+    <nav aria-label="ลิงก์ท้ายเว็บไซต์">
+      <a href="index.html" class="me-3">หน้าแรก</a>
+      <a href="rules.html" class="me-3">กฎพื้นฐาน</a>
+      <a href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a>
+    </nav>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเล่น D&D | กฎพื้นฐาน</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Noto+Serif+Thai
+    :wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+      :root{
+    --parchment:#faf8f5;
+    --parchment-dark:#efe7d8;
+    --crimson:#c1121f;
+    --crimson-dark:#8f0e17;
+    --purple:#3c1361;
+    --purple-dark:#26073f;
+    --ink:#2b241c;
+  }
+  body{ background-color:var(--parchment); font-family:'Sarabun', sans-serif; color:var(--ink); }
+  h1,h2,h3,h4,.font-display{ font-family:'Noto Serif Thai', serif; letter-spacing:.3px; }
+  .navbar{ background:linear-gradient(90deg,var(--purple-dark),var(--purple)); border-bottom:4px solid var(--crimson); }
+  .navbar-brand{ font-family:'Noto Serif Thai', serif; font-weight:800; color:#fff !important; }
+  .navbar .nav-link{ color:#f1e9da !important; font-weight:600; }
+  .navbar .nav-link.active{ color:#fff !important; text-decoration:underline; text-decoration-color:var(--crimson); text-decoration-thickness:3px; text-underline-offset:6px; }
+  .page-header{
+    background:linear-gradient(160deg,var(--purple-dark),var(--purple) 60%,var(--crimson-dark));
+    color:#fdf6ea; padding:3rem 1rem; border-bottom:6px solid var(--crimson);
+  }
+  .section-title{ position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+  .section-title::after{ content:""; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--crimson); border-radius:2px; }
+  .content-card{
+    background:#fffdf9; border:1px solid #e4d9c4; border-radius:.75rem;
+    box-shadow:0 4px 14px rgba(43,36,28,.06);
+  }
+  .dice-badge{
+    font-family:'Noto Serif Thai', serif;
+    font-size:1rem; font-weight:700;
+    background:var(--purple);
+    border:2px solid var(--crimson);
+    padding:.6rem 1rem;
+  }
+  .hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('BGrule.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+ }
+  .flow-step{
+    background:#fffdf9; border:1px solid #e4d9c4; border-radius:.75rem;
+    padding:1rem; text-align:center; height:100%;
+  }
+  .flow-step .step-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; border-radius:50%;
+    background:var(--crimson); color:#fff; font-weight:800; margin-bottom:.5rem;
+  }
+  .table thead{ background:var(--purple); color:#fff; }
+  .accordion-button:not(.collapsed){
+    background-color:var(--crimson); color:#fff;
+  }
+  .accordion-button:focus{ box-shadow:0 0 0 .2rem rgba(193,18,31,.35); }
+  .sidebar-tip{
+    background:var(--parchment-dark);
+    border-left:4px solid var(--crimson);
+    border-radius:.5rem;
+  }
+  footer{ background:var(--purple-dark); color:#e9dfca; border-top:4px solid var(--crimson); }
+  footer a{ color:#f1e9da; }
+  .skip-link{ position:absolute; left:-999px; top:auto; background:#fff; color:#000; padding:.5rem 1rem; z-index:2000; }
+  .skip-link:focus{ left:1rem; top:1rem; }        
+</style>
+</head>
+<body class="d-flex flex-column min-vh-100, flex-grow-1">
+<a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="เมนูหลัก">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">D&amp;D Play Guide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="เปิด/ปิดเมนูนำทาง">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="index.html">หน้าแรก</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="rules.html">กฎพื้นฐาน</a></li>
+                <li class="nav-item"><a class="nav-link" href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+</header>
+
+<div class="hero text-center text-white py-5 d-flex flex-column justify-content-center" aria-labelledby="hero-title" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6),
+ rgba(0, 0, 0, 0.6)), url('images/BGrule.jpg'); background-size: cover; background-position: center; min-height: 70vh;">
+    <div class="container">
+        <h1 class="display-4">กฎพื้นฐาน</h1>
+        <p class="lead mb-0">จังหวะการเล่น ลูกเต๋า ความสามารถทั้งหมด และการกระทำในสนามรบ</p>
+    </div>
+</div>
+    
+<main id="main" class="py-5 , flex-grow-1" main>
+    <div class="container">
+        <div class="row g-4">
+
+      <!-- Main content column -->
+      <div class="col-lg-8">
+ 
+        <section aria-labelledby="rhythm-title" class="mb-5">
+          <h2 id="rhythm-title" class="section-title h3">จังหวะการเล่น (Rhythm of Play)</h2>
+          <p>เกม D&amp;D ดำเนินไปเป็นวงจรซ้ำ ๆ ระหว่างดันเจี้ยนมาสเตอร์และผู้เล่น สามขั้นตอนหลักคือ:</p>
+          <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+            <div class="col">
+              <div class="flow-step">
+                <div class="step-num">1</div>
+                <h3 class="h6">DM บรรยายฉาก</h3>
+                <p class="small mb-0">ดันเจี้ยนมาสเตอร์อธิบายสภาพแวดล้อมและสถานการณ์ที่ตัวละครเผชิญอยู่</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="flow-step">
+                <div class="step-num">2</div>
+                <h3 class="h6">ผู้เล่นตอบสนอง</h3>
+                <p class="small mb-0">ผู้เล่นแต่ละคนบอกว่าตัวละครของตนจะทำอะไร แล้วทอยลูกเต๋าตามความจำเป็น</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="flow-step">
+                <div class="step-num">3</div>
+                <h3 class="h6">DM เล่าผลลัพธ์</h3>
+                <p class="small mb-0">ดันเจี้ยนมาสเตอร์บรรยายผลของการกระทำนั้น แล้ววนกลับไปขั้นตอนที่ 1</p>
+              </div>
+            </div>
+          </div>
+ 
+          <h3 class="h5">ลูกเต๋าที่ใช้ในเกม</h3>
+          <p>D&amp;D ใช้ลูกเต๋าหลายเหลี่ยม (Polyhedral Dice) ชุดหนึ่ง เรียกชื่อตามจำนวนหน้า:</p>
+          <div class="d-flex flex-wrap gap-2 mb-3" role="list" aria-label="ชนิดลูกเต๋าที่ใช้ในเกม">
+            <span class="badge dice-badge rounded-pill" role="listitem">D4</span>
+            <span class="badge dice-badge rounded-pill" role="listitem">D6</span>
+            <span class="badge dice-badge rounded-pill" role="listitem">D8</span>
+            <span class="badge dice-badge rounded-pill" role="listitem">D10</span>
+            <span class="badge dice-badge rounded-pill" role="listitem">D12</span>
+            <span class="badge dice-badge rounded-pill" role="listitem">D20</span>
+          </div>
+          <div class="alert alert-danger" role="note">
+            <strong>D20</strong> คือลูกเต๋าหลักของเกม ใช้ในการทดสอบความสามารถ การทอยเซฟ และการทอยโจมตีแทบทุกครั้ง
+          </div>
+        </section>
+
+        <section aria-labelledby="abilities-title" class="mb-5">
+          <h2 id="abilities-title" class="section-title h3">ความสามารถทั้งหก (The Six Abilities)</h2>
+          <p>ตัวละครทุกตัวมีค่าความสามารถ 6 ด้าน ใช้เป็นพื้นฐานของการทดสอบเกือบทุกอย่างในเกม</p>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <caption class="visually-hidden">ตารางค่าความสามารถทั้งหกของตัวละคร</caption>
+              <thead>
+                <tr>
+                  <th scope="col">ย่อ</th>
+                  <th scope="col">ความสามารถ</th>
+                  <th scope="col">ใช้สำหรับ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">STR</th>
+                  <td>ความแข็งแกร่ง (Strength)</td>
+                  <td>พละกำลังกาย การยกของ การปีนป่าย การต่อยตี</td>
+                </tr>
+                <tr>
+                  <th scope="row">DEX</th>
+                  <td>ความคล่องแคล่ว (Dexterity)</td>
+                  <td>ความว่องไว การหลบหลีก การย่องเบา อาวุธระยะไกล</td>
+                </tr>
+                <tr>
+                  <th scope="row">CON</th>
+                  <td>ความทรหด (Constitution)</td>
+                  <td>ความแข็งแรงของร่างกาย พลังชีวิต ความอดทน</td>
+                </tr>
+                <tr>
+                  <th scope="row">INT</th>
+                  <td>ความฉลาด (Intelligence)</td>
+                  <td>ความจำ เหตุผล ความรู้ทางวิชาการ</td>
+                </tr>
+                <tr>
+                  <th scope="row">WIS</th>
+                  <td>ปัญญาญาณ (Wisdom)</td>
+                  <td>สัญชาตญาณ การสังเกต ความเข้าใจผู้อื่น</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHA</th>
+                  <td>เสน่ห์ (Charisma)</td>
+                  <td>การโน้มน้าวใจ ความเป็นผู้นำ พลังบุคลิกภาพ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section aria-labelledby="d20-title" class="mb-5">
+          <h2 id="d20-title" class="section-title h3">การทดสอบด้วย D20</h2>
+          <p>ทุกครั้งที่ผลลัพธ์ไม่แน่นอน ผู้เล่นจะทอยลูกเต๋า D20 แล้วบวกตัวปรับค่าที่เกี่ยวข้อง การทดสอบหลักมี 3 แบบ:</p>
+          <ul>
+            <li><strong>การทดสอบความสามารถ (Ability Check)</strong> — ใช้เมื่อพยายามทำสิ่งที่มีโอกาสล้มเหลว เช่น ปีนกำแพงหรือค้นหาทางลับ</li>
+            <li><strong>การทอยเซฟ (Saving Throw)</strong> — ใช้เมื่อพยายามต้านทานอันตราย เช่น กับดักหรือคาถา</li>
+            <li><strong>การทอยโจมตี (Attack Roll)</strong> — ใช้เมื่อโจมตีศัตรู เพื่อดูว่าโจมตีโดนหรือไม่</li>
+          </ul>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="alert alert-success mb-0" role="note">
+                <strong>ได้เปรียบ (Advantage):</strong> ทอย D20 สองลูก แล้วเลือกใช้ผลที่ <em>สูงกว่า</em>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="alert alert-secondary mb-0" role="note">
+                <strong>เสียเปรียบ (Disadvantage):</strong> ทอย D20 สองลูก แล้วเลือกใช้ผลที่ <em>ต่ำกว่า</em>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="actions-title">
+          <h2 id="actions-title" class="section-title h3">การกระทำในสนามรบ (Actions)</h2>
+          <p>ในแต่ละเทิร์นของการต่อสู้ ตัวละครสามารถเลือกทำ 1 การกระทำหลักจากรายการต่อไปนี้ — คลิกเพื่อดูรายละเอียด</p>
+ 
+          <div class="accordion" id="actionsAccordion">
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-attack">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-attack" aria-expanded="true" aria-controls="collapse-attack">
+                  ⚔️ โจมตี (Attack)
+                </button>
+              </h3>
+              <div id="collapse-attack" class="accordion-collapse collapse show" aria-labelledby="heading-attack" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  โจมตีศัตรูด้วยอาวุธประชิดตัว อาวุธระยะไกล หรือการโจมตีจากคาถา ทอย D20 บวกตัวปรับที่เกี่ยวข้อง
+                  หากผลรวมเท่ากับหรือมากกว่าค่าเกราะ (AC) ของเป้าหมาย ถือว่าโจมตีโดน
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-dash">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dash" aria-expanded="false" aria-controls="collapse-dash">
+                  🏃 วิ่ง (Dash)
+                </button>
+              </h3>
+              <div id="collapse-dash" class="accordion-collapse collapse" aria-labelledby="heading-dash" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  ทุ่มพลังทั้งหมดไปกับการเคลื่อนที่ ทำให้ได้ระยะทางเคลื่อนที่เพิ่มเติมเท่ากับความเร็วปกติของตัวละครในเทิร์นนั้น
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-disengage">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-disengage" aria-expanded="false" aria-controls="collapse-disengage">
+                  🤺 ถอนตัว (Disengage)
+                </button>
+              </h3>
+              <div id="collapse-disengage" class="accordion-collapse collapse" aria-labelledby="heading-disengage" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  เคลื่อนที่ออกจากศัตรูอย่างระมัดระวัง ทำให้การเคลื่อนที่ของตัวละครในเทิร์นนี้ไม่กระตุ้นการโจมตีฉวยโอกาส (Opportunity Attack)
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-dodge">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dodge" aria-expanded="false" aria-controls="collapse-dodge">
+                  🛡️ หลบหลีก (Dodge)
+                </button>
+              </h3>
+              <div id="collapse-dodge" class="accordion-collapse collapse" aria-labelledby="heading-dodge" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  ตั้งท่าเน้นการหลบหลีกโดยเฉพาะ จนถึงต้นเทิร์นถัดไป การโจมตีที่พุ่งเข้าใส่ตัวละครจะมีโอกาสสูงขึ้นที่จะพลาด และตัวละครทอยเซฟ DEX ได้เปรียบ
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-help">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-help" aria-expanded="false" aria-controls="collapse-help">
+                  🤝 ช่วยเหลือ (Help)
+                </button>
+              </h3>
+              <div id="collapse-help" class="accordion-collapse collapse" aria-labelledby="heading-help" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  ช่วยเหลือพันธมิตรที่อยู่ใกล้เคียงให้ทำการทดสอบความสามารถหรือโจมตีครั้งถัดไปได้เปรียบ โดยการชี้ทาง ให้กำลังใจ หรือเบี่ยงเบนความสนใจศัตรู
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-hide">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-hide" aria-expanded="false" aria-controls="collapse-hide">
+                  🌑 ซ่อนตัว (Hide)
+                </button>
+              </h3>
+              <div id="collapse-hide" class="accordion-collapse collapse" aria-labelledby="heading-hide" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  พยายามซ่อนตัวจากสายตาศัตรูด้วยการทดสอบ DEX (Stealth) หากสำเร็จ ตัวละครจะได้สถานะซ่อนตัว (Hidden) ซึ่งช่วยให้การโจมตีครั้งถัดไปได้เปรียบ
+                </div>
+              </div>
+            </div>
+ 
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="heading-ready">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-ready" aria-expanded="false" aria-controls="collapse-ready">
+                  ⏳ เตรียมพร้อม (Ready)
+                </button>
+              </h3>
+              <div id="collapse-ready" class="accordion-collapse collapse" aria-labelledby="heading-ready" data-bs-parent="#actionsAccordion">
+                <div class="accordion-body">
+                  กำหนดเงื่อนไขและการกระทำที่จะทำทันทีเมื่อเกิดเหตุการณ์ที่ระบุไว้ก่อนถึงเทิร์นถัดไปของตัวละครเอง
+                </div>
+              </div>
+            </div>
+ 
+          </div>
+        </section>
+
+        </div>
+ 
+      <!-- Sidebar column -->
+      <aside class="col-lg-4" aria-label="เคล็ดลับด่วน">
+        <div class="content-card p-4 mb-4">
+          <h2 class="h5 section-title">เคล็ดลับด่วน</h2>
+          <div class="sidebar-tip p-3 mb-3">
+            <strong>ตัวปรับค่าความสามารถ</strong>
+            <p class="small mb-0 mt-1">ยิ่งค่าความสามารถสูง ตัวปรับที่บวกเข้าไปในการทอยเต๋าก็ยิ่งมากขึ้นตามไปด้วย</p>
+          </div>
+          <div class="sidebar-tip p-3 mb-3">
+            <strong>1 ใน 20 คือความล้มเหลวที่ยอดเยี่ยม</strong>
+            <p class="small mb-0 mt-1">การทอยได้เลข 1 มักหมายถึงความล้มเหลวที่น่าจดจำ ส่วนเลข 20 คือความสำเร็จที่งดงามที่สุด</p>
+          </div>
+          <div class="sidebar-tip p-3">
+            <strong>1 การกระทำต่อเทิร์น</strong>
+            <p class="small mb-0 mt-1">นอกจากการกระทำหลักแล้ว ตัวละครยังมีการเคลื่อนที่และการกระทำโบนัส (ถ้ามี) ในเทิร์นเดียวกันได้</p>
+          </div>
+        </div>
+      </aside>
+ 
+    </div>
+  </div>
+</main>
+ 
+<footer class="py-4 mt-4, mt-auto">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
+    <p class="mb-0">© 2569 คู่มือการเล่น D&amp;D (ฉบับแปลไทย) — จัดทำเพื่อการศึกษา</p>
+    <nav aria-label="ลิงก์ท้ายเว็บไซต์">
+      <a href="index.html" class="me-3">หน้าแรก</a>
+      <a href="rules.html" class="me-3">กฎพื้นฐาน</a>
+      <a href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a>
+    </nav>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

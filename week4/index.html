@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือการเล่น D&D   |   หน้าแรก</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Noto+Serif+
+Thai:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#faf8f5;
+    --parchment-dark:#efe7d8;
+    --crimson:#c1121f;
+    --crimson-dark:#8f0e17;
+    --purple:#140422;
+    --purple-dark:#26073f;
+    --ink:#2b241c;
+  }
+  body{
+    background-color:var(--parchment);
+    background-image:radial-gradient(circle at 20% 10%, rgba(60,19,97,.05), transparent 40%),
+                      radial-gradient(circle at 80% 90%, rgba(193,18,31,.06), transparent 40%);
+    font-family:'Sarabun', sans-serif;
+    color:var(--ink);
+  }
+  .hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('BGindexmain.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+ }
+  h1,h2,h3,h4,.font-display{
+    font-family:'Noto Serif Thai', serif;
+    letter-spacing:.3px;
+  }
+  a{ color:var(--crimson-dark); }
+  .navbar{
+    background:linear-gradient(90deg,var(--purple-dark),var(--purple));
+    border-bottom:4px solid var(--crimson);
+  }
+  .navbar-brand{
+    font-family:'Noto Serif Thai', serif;
+    font-weight:800;
+    color:#fff !important;
+    letter-spacing:.5px;
+  }
+  .navbar .nav-link{
+    color:#f1e9da !important;
+    font-weight:600;
+  }
+  .navbar .nav-link.active{
+    color:#fff !important;
+    text-decoration:underline;
+    text-decoration-color:var(--crimson);
+    text-decoration-thickness:3px;
+    text-underline-offset:6px;
+  }
+  .hero{
+    background:linear-gradient(160deg,var(--purple-dark) 0%, var(--purple) 55%, var(--crimson-dark) 100%);
+    color:#fdf6ea;
+    padding:4.5rem 1rem;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--crimson);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size:22px 22px;
+    opacity:.5;
+  }
+  .hero .display-4{
+    font-family:'Noto Serif Thai', serif;
+    font-weight:800;
+    text-shadow:0 3px 10px rgba(0,0,0,.5);
+  }
+  .hero .lead{ max-width:46rem; margin-inline:auto; }
+  .badge-d20{
+    background:var(--crimson);
+    border:2px solid #fdf6ea;
+  }
+  .section-title{
+    position:relative;
+    display:inline-block;
+    padding-bottom:.5rem;
+    margin-bottom:2rem;
+  }
+  .section-title::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:70px; height:4px;
+    background:var(--crimson);
+    border-radius:2px;
+  }
+  .component-card{
+    border:1px solid #e4d9c4;
+    background:#fffdf9;
+    border-radius:.75rem;
+    box-shadow:0 4px 14px rgba(43,36,28,.06);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .component-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(43,36,28,.14);
+  }
+  .component-icon{
+    width:64px; height:64px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--purple),var(--crimson));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:1.6rem; font-weight:800;
+    flex-shrink:0;
+  }
+  .btn-outline-danger{
+    --bs-btn-color:var(--crimson-dark);
+    --bs-btn-border-color:var(--crimson);
+    --bs-btn-hover-bg:var(--crimson);
+    --bs-btn-hover-border-color:var(--crimson);
+  }
+  footer{
+    background:var(--purple-dark);
+    color:#e9dfca;
+    border-top:4px solid var(--crimson);
+  }
+  footer a{ color:#f1e9da; }
+  .skip-link{
+    position:absolute; left:-999px; top:auto;
+    background:#fff; color:#000; padding:.5rem 1rem; z-index:2000;
+  }
+  .skip-link:focus{ left:1rem; top:1rem; }
+</style>
+</head>
+<body class="d-flex flex-column min-vh-100, flex-grow-1">
+<a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="เมนูหลัก">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">D&amp;D Play Guide</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"aria-controls="mainNav" aria-expanded="false" aria-label="เปิด/ปิดเมนูนำทาง">
+            <span class="navbar-toggler-icon"></span>
+            </button> 
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">หน้าแรก</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rules.html">กฎพื้นฐาน</a></li>
+                    <li class="nav-item"><a class="nav-link" href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main id="main">
+    <section class="hero text-center text-white py-5 d-flex flex-column justify-content-center" aria-labelledby="hero-title" style="background-image: linear-gradient(rgba(129, 27, 27, 0),
+     rgba(0, 0, 0, 0.6)), url('images/BGindexmain.jpg'); background-size: cover; background-position: center; min-height: 85vh;">
+        <div class="container position-relative">
+            <span class="badge badge-d20 rounded-pill px-3 py-2 mb-3">ฉบับผู้เล่นภาษาไทย</span>
+            <h1 id="hero-title" class="display-4 mb-3">คู่มือการเล่น D&amp;D<br>(Play Guide)</h1>
+            <p class="lead">
+            ยินดีต้อนรับสู่โลกแห่งจินตนาการและการเล่าเรื่องไม่รู้จบ ไม่ว่าคุณจะเป็นนักผจญภัยหน้าใหม่ที่เพิ่งหยิบลูกเต๋าเป็นครั้งแรก
+            หรือดันเจี้ยนมาสเตอร์ (Dungeon Master) ผู้คุมเกม คู่มือฉบับนี้จะพาคุณทำความรู้จักส่วนประกอบของเกม
+            กฎพื้นฐาน และระบบการต่อสู้ทั้งหมด เพื่อให้ทุกโต๊ะเกมพร้อมออกเดินทางสู่การผจญภัยครั้งใหม่
+            </p>
+
+        <div class="d-flex justify-content-center gap-2 flex-wrap mt-4">
+            <a href="rules.html" class="btn btn-light btn-lg fw-bold">เริ่มเรียนรู้กฎ</a>
+            <a href="combat_magic.html" class="btn btn-outline-light btn-lg">ไปหน้าการต่อสู้</a>
+        </div>
+        </div>
+  </section>
+
+  <section class="py-5" aria-labelledby="components-title">
+    <div class="container">
+      <div class="text-center mb-2">
+        <h2 id="components-title" class="section-title">ส่วนประกอบของเกม</h2>
+        <p class="text-muted">การ์ดและกระดานทั้ง 6 ประเภทที่ประกอบกันเป็นตัวละครและโลกของคุณ</p>
+      </div>
+ 
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+ 
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">🏰</div>
+                <h3 class="card-title h5 mb-0">การ์ดภูมิหลัง<br><small class="text-muted">(Background Cards)</small></h3>
+              </div>
+              <p class="card-text">
+                บอกเล่าที่มาของตัวละครก่อนจะออกผจญภัย — เคยเป็นช่างตีเหล็ก นักวิชาการ หรือโจรข้างถนน
+                ภูมิหลังมอบทักษะที่ถนัด อุปกรณ์เริ่มต้น และบุคลิกให้ตัวละครของคุณมีมิติมากขึ้น
+              </p>
+              <a href="rules.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">🧝</div>
+                <h3 class="card-title h5 mb-0">การ์ดเผ่าพันธุ์<br><small class="text-muted">(Species Cards)</small></h3>
+              </div>
+              <p class="card-text">
+                กำหนดว่าตัวละครของคุณคือใคร — มนุษย์ เอลฟ์ ดวอร์ฟ หรือฮาล์ฟลิง แต่ละเผ่าพันธุ์มอบความสามารถพิเศษ
+                ลักษณะทางกายภาพ และมุมมองต่อโลกที่แตกต่างกัน
+              </p>
+              <a href="rules.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">⚔️</div>
+                <h3 class="card-title h5 mb-0">การ์ดอุปกรณ์<br><small class="text-muted">(Equipment Cards)</small></h3>
+              </div>
+              <p class="card-text">
+                อาวุธ ชุดเกราะ และของใช้ประจำกายที่ตัวละครพกติดตัว แต่ละชิ้นมีค่าความเสียหาย
+                น้ำหนัก และคุณสมบัติพิเศษที่ส่งผลต่อการต่อสู้และการผจญภัย
+              </p>
+              <a href="combat_magic.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">✨</div>
+                <h3 class="card-title h5 mb-0">การ์ดเวทมนตร์<br><small class="text-muted">(Spell Cards)</small></h3>
+              </div>
+              <p class="card-text">
+                คาถาและเวทมนตร์ที่ตัวละครสายเวทร่ายได้ ระบุระดับคาถา ช่องเวทที่ต้องใช้
+                ระยะ พื้นที่ผลกระทบ และผลลัพธ์ของการร่ายแต่ละครั้ง
+              </p>
+              <a href="combat_magic.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">🛡️</div>
+                <h3 class="card-title h5 mb-0">กระดานอาชีพ<br><small class="text-muted">(Class Boards)</small></h3>
+              </div>
+              <p class="card-text">
+                แผ่นอ้างอิงประจำอาชีพ เช่น นักรบ นักบวช หรือพ่อมด รวมความสามารถประจำคลาส
+                ค่าพลังชีวิต และตัวเลือกการเติบโตของตัวละครไว้ในที่เดียว
+              </p>
+              <a href="rules.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col">
+          <article class="card component-card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="component-icon" aria-hidden="true">🐲</div>
+                <h3 class="card-title h5 mb-0">การ์ดมอนสเตอร์ / NPC<br><small class="text-muted">(Monster/NPC Cards)</small></h3>
+              </div>
+              <p class="card-text">
+                ศัตรูและตัวละครที่ไม่ใช่ผู้เล่นที่ดันเจี้ยนมาสเตอร์ใช้ควบคุมในเกม บอกค่าพลังชีวิต
+                ค่าเกราะ และความสามารถพิเศษที่ผู้เล่นต้องรับมือ
+              </p>
+              <a href="combat_magic.html" class="btn btn-outline-danger mt-auto">ดูรายละเอียด</a>
+            </div>
+          </article>
+        </div>
+    </div>
+  </section>
+</main>
+
+<footer class="py-4 mt-4, mt-auto">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
+    <p class="mb-0">© 2569 คู่มือการเล่น D&amp;D (ฉบับแปลไทย) — จัดทำเพื่อการศึกษา</p>
+    <nav aria-label="ลิงก์ท้ายเว็บไซต์">
+      <a href="index.html" class="me-3">หน้าแรก</a>
+      <a href="rules.html" class="me-3">กฎพื้นฐาน</a>
+      <a href="combat_magic.html">การต่อสู้ &amp; เวทมนตร์</a>
+    </nav>
+  </div>
+</footer>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
