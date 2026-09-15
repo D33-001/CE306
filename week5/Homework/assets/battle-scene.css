@@ -1,0 +1,21 @@
+#scene-viewport{position:relative;overflow:hidden;border-radius:18px;border:1px solid #7c898e;background:#152231;perspective:none;isolation:isolate}
+#scene-stage{position:relative;display:block;height:clamp(340px,48vw,480px);min-height:0;padding:0;transform-style:flat;overflow:hidden}
+#arena-sky{position:absolute;inset:-20px;background:radial-gradient(ellipse at 72% 28%,#c8b58a44,transparent 32%),linear-gradient(#101b2d 5%,#4e6675 43%,#8b9082 44%,#394750 47%,#1b2734 100%);pointer-events:none}
+#arena-sky:after{content:'';position:absolute;left:0;right:0;top:25%;height:23%;background:#15253299;clip-path:polygon(0 100%,0 70%,7% 62%,14% 83%,22% 40%,32% 69%,42% 25%,51% 71%,65% 48%,74% 72%,86% 32%,100% 70%,100% 100%)}
+#arena-world{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.camera-actor{position:absolute;width:200px;height:240px;transform-origin:50% 100%;will-change:transform,left,top;pointer-events:none}
+.camera-actor #player-avatar-wrap,.camera-actor #monster-avatar-wrap{width:200px;height:240px;position:relative}
+.camera-actor .actor-art{width:200px;height:240px;display:block;filter:drop-shadow(0 10px 9px #0005)}
+.camera-actor .actor-shadow{position:absolute;width:170px;height:22px;left:15px;bottom:-8px}
+.camera-actor .actor-reticle{position:absolute;left:0;top:15px;width:200px;height:200px}
+.arena-caption{position:absolute;z-index:110;top:16px;left:18px;color:#e8decb;font-size:11px;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
+.arena-caption small{display:block;margin-top:5px;font-size:10px;letter-spacing:.06em;color:#b7c7cf}
+.arena-dice{position:absolute;z-index:115;right:18px;top:18px;text-align:center;color:#dfd8c5}
+.arena-dice #d20-display{width:46px;height:46px}
+.arena-dice #d20-number{font-size:20px}
+.arena-dice>p:not(.sr-only){display:none}
+.battle-status{display:flex;justify-content:space-between;gap:16px;margin:10px 0 14px}
+.battle-status>div{max-width:19rem;margin:0;flex:1}
+#scene-stage #fx-layer{z-index:120}
+@media(max-width:540px){#scene-stage{height:340px}.arena-caption{font-size:9px;left:12px;top:12px}.arena-dice{right:12px;top:12px}.battle-status{gap:8px}.battle-status>div{min-width:0}.battle-status h3{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.camera-actor{will-change:auto}}

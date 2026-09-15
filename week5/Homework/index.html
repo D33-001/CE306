@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <!-- Applies saved/system theme before first paint, so there's no flash of
+       the wrong color scheme. Reads localStorage only; never writes here. -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var isDark = stored ? stored === "dark" : prefersDark;
+        if (isDark) document.documentElement.classList.add("dark");
+      } catch (e) { /* localStorage unavailable — default to light */ }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ledger of the Fifth Reckoning — Turn-Based Tactical RPG</title>
+  <meta name="description" content="A turn-based Tactical RPG built on 5e-inspired core rules. Forge a hero, roll true dice, and survive the arena." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ["Georgia", "Cambria", "serif"],
+            sans: ["system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; }
+    .font-serif { font-family: Georgia, Cambria, serif; }
+    label:has(input[type="radio"]:focus-visible) {
+      outline: 3px solid #f59e0b;
+      outline-offset: 2px;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+    }
+
+    /* ---------------------- Combat scene "2D live" animation ---------------------- */
+
+    @keyframes idle-sway-left {
+      0%, 100% { transform: rotate(-1deg) translateY(0); }
+      50% { transform: rotate(1deg) translateY(-2px); }
+    }
+    @keyframes idle-sway-right {
+      0%, 100% { transform: rotate(1deg) translateY(0); }
+      50% { transform: rotate(-1deg) translateY(-2px); }
+    }
+    .anim-idle-player { animation: idle-sway-left 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+    .anim-idle-monster { animation: idle-sway-right 2.2s ease-in-out infinite; transform-origin: 50% 100%; }
+
+    @keyframes lunge-forward {
+      0% { transform: translateX(0) scale(1); }
+      35% { transform: translateX(14px) scale(1.04); }
+      60% { transform: translateX(14px) scale(1.04); }
+      100% { transform: translateX(0) scale(1); }
+    }
+    @keyframes lunge-backward {
+      0% { transform: translateX(0) scale(1); }
+      35% { transform: translateX(-14px) scale(1.04); }
+      60% { transform: translateX(-14px) scale(1.04); }
+      100% { transform: translateX(0) scale(1); }
+    }
+    .anim-lunge-player { animation: lunge-forward 0.5s ease-out; }
+    .anim-lunge-monster { animation: lunge-backward 0.5s ease-out; }
+
+    @keyframes cast-pulse {
+      0% { filter: drop-shadow(0 0 0 rgba(152,193,217,0)); transform: scale(1); }
+      40% { filter: drop-shadow(0 0 10px rgba(152,193,217,0.9)); transform: scale(1.03); }
+      100% { filter: drop-shadow(0 0 0 rgba(152,193,217,0)); transform: scale(1); }
+    }
+    .anim-cast { animation: cast-pulse 0.7s ease-out; }
+
+    @keyframes hit-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px) rotate(-2deg); }
+      40% { transform: translateX(5px) rotate(2deg); }
+      60% { transform: translateX(-4px) rotate(-1deg); }
+      80% { transform: translateX(3px) rotate(1deg); }
+    }
+    .anim-hit { animation: hit-shake 0.4s ease-in-out; }
+
+    @keyframes flash-red {
+      0%, 100% { filter: brightness(1) saturate(1); }
+      30% { filter: brightness(1.6) saturate(2.2) drop-shadow(0 0 8px rgba(190,18,60,0.8)); }
+    }
+    .anim-hit-flash { animation: flash-red 0.4s ease-in-out; }
+
+    @keyframes death-fall {
+      0% { transform: rotate(0deg) translateY(0); opacity: 1; }
+      100% { transform: rotate(12deg) translateY(14px); opacity: 0.25; }
+    }
+    .anim-death { animation: death-fall 0.8s ease-in forwards; }
+
+    @keyframes victory-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
+    }
+    .anim-victory { animation: victory-bounce 0.9s ease-in-out infinite; }
+
+    @keyframes reticle-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .anim-reticle { animation: reticle-spin 4s linear infinite; transform-origin: center; }
+
+    @keyframes bolt-fly {
+      0% { transform: translate(var(--fx-start-x, 0), var(--fx-start-y, 0)) scale(0.6); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translate(var(--fx-end-x, 0), var(--fx-end-y, 0)) scale(1); opacity: 0; }
+    }
+    .anim-bolt { animation: bolt-fly 0.55s cubic-bezier(0.3, 0, 0.7, 1) forwards; position: absolute; pointer-events: none; }
+
+    @keyframes impact-burst {
+      0% { transform: scale(0.3); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .anim-impact { animation: impact-burst 0.45s ease-out forwards; position: absolute; pointer-events: none; border-radius: 9999px; }
+
+    @keyframes shield-shimmer {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    .anim-shield-ring { animation: shield-shimmer 1.6s ease-in-out infinite; }
+
+    @keyframes d20-spin {
+      0% { transform: rotate(0deg) scale(1); }
+      60% { transform: rotate(620deg) scale(1.08); }
+      100% { transform: rotate(720deg) scale(1); }
+    }
+    .anim-d20-spin { animation: d20-spin 0.6s cubic-bezier(0.2, 0.7, 0.3, 1); }
+
+    /* Camera stage: BattleCameraController writes transform/transform-origin
+       here only. overflow:hidden keeps zoom-ins from bleeding past the card.
+       #scene-viewport supplies the CSS perspective so rotateY/translateZ on
+       #scene-stage reads as genuine 3D camera movement, not a flat skew. */
+    /* Perspective battlefield layout is in assets/battle-scene.css. */
+
+    /* Cel-shaded avatar micro-animation — layered on top of the whole-body
+       idle sway (.anim-idle-player/.anim-idle-monster). transform-box:fill-box
+       makes the percentage transform-origin relative to each shape's own
+       bounding box (SVG default is the viewport, which would be wrong here). */
+    @keyframes char-blink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.12); }
+    }
+    .char-eye { animation: char-blink 4.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+    .char-eye:nth-of-type(2) { animation-delay: 0.03s; }
+
+    @keyframes char-hair-sway {
+      0%, 100% { transform: rotate(-1.6deg); }
+      50% { transform: rotate(1.6deg); }
+    }
+    .char-hair-back, .char-hair-front {
+      animation: char-hair-sway 3.6s ease-in-out infinite;
+      transform-origin: 50% 0%;
+      transform-box: fill-box;
+    }
+    .char-hair-front { animation-direction: reverse; animation-delay: 0.18s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .char-eye, .char-hair-back, .char-hair-front { animation: none !important; }
+    }
+
+    @keyframes float-up-fade {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-26px); opacity: 0; }
+    }
+    .anim-float-text { animation: float-up-fade 0.9s ease-out forwards; position: absolute; pointer-events: none; font-weight: 700; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-idle-player, .anim-idle-monster, .anim-lunge-player, .anim-lunge-monster,
+      .anim-cast, .anim-hit, .anim-hit-flash, .anim-death, .anim-victory,
+      .anim-reticle, .anim-bolt, .anim-impact, .anim-shield-ring, .anim-float-text,
+      .anim-d20-spin {
+        animation: none !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/battle-scene.css" />
+</head>
+<body class="bg-stone-100 dark:bg-stone-950 text-stone-900 dark:text-stone-100 antialiased">
+  <a href="#app-root"
+     class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-amber-600 focus:text-stone-900 focus:rounded-sm">
+    Skip to main content
+  </a>
+
+  <header class="sr-only">
+    <h1>Ledger of the Fifth Reckoning</h1>
+  </header>
+
+  <!-- Main app container: render.js writes the current screen (menu / creator / combat / end) here. -->
+  <!-- Light/Dark mode toggle — lives outside #app-root so it survives every
+       screen re-render. Icons react purely via CSS `dark:` variants; app.js
+       only flips the `dark` class + persists the choice (no re-render needed).
+       Also reachable with the "T" key from anywhere (see app.js keydown). -->
+  <button type="button" data-action="toggle-theme" aria-label="Toggle light and dark mode" title="Toggle theme (T)"
+    class="fixed top-2 right-2 z-50 px-3 py-1.5 rounded-full border border-stone-400 dark:border-stone-600
+    bg-amber-50/90 dark:bg-stone-900/90 text-stone-800 dark:text-stone-100 text-xs font-semibold shadow-sm
+    hover:bg-amber-100 dark:hover:bg-stone-800 focus-visible:ring-2 focus-visible:ring-amber-500 focus:outline-none
+    forced-colors:border forced-colors:border-2">
+    <span class="dark:hidden">Dark mode</span>
+    <span class="hidden dark:inline">Light mode</span>
+  </button>
+
+  <main id="app-root" role="main" aria-live="polite" class="min-h-screen">
+    <div class="min-h-screen flex items-center justify-center">
+      <p class="text-stone-500 dark:text-stone-400 text-sm">Preparing the arena&hellip;</p>
+    </div>
+  </main>
+
+  <!-- The "How to Play" dialog is created and wired (showModal/close) dynamically by render.js -->
+
+  <!-- Plain classic scripts (not type="module") in dependency order, so the game
+       runs by simply double-clicking index.html — no local server required. -->
+  <script src="./js/dndCore.js"></script>
+  <script src="./js/gameState.js"></script>
+  <script src="./js/characterModel.js"></script>
+  <script src="./js/combatAI.js"></script>
+  <script src="./js/battleCamera.js?v=orbit-1"></script>
+  <script src="./js/render.js?v=orbit-1"></script>
+  <script src="./js/app.js?v=keyboard-1"></script>
+</body>
+</html>
