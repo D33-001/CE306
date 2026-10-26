@@ -1,0 +1,82 @@
+{
+  "collections": {
+    "account_inventory_specs": [
+      {
+        "_id": "spec_valorant_immortal_01",
+        "listing_id": "list_val_001",
+        "game_type": "VALORANT",
+        "account_region": "Asia-Pacific",
+        "rank": {
+          "current_rank": "Immortal 2",
+          "peak_rank": "Immortal 3",
+          "ranked_ready": true,
+          "win_rate_percent": 62.4
+        },
+        "bind_security": {
+          "has_first_email": true,
+          "email_change_available": true,
+          "phone_linked": false,
+          "riot_id_changeable": true,
+          "risk_assessment": "VERY_LOW_RISK"
+        },
+        "skins_inventory": [
+          { "skin_name": "Kuronami Vandal", "tier": "Exclusive", "rarity": "Orange", "unlocked_variants": 4, "market_price_thb": 1200 },
+          { "skin_name": "Champions 2024 Karambit", "tier": "Ultra", "rarity": "Gold", "unlocked_variants": 3, "market_price_thb": 2800 },
+          { "skin_name": "Prime Vandal", "tier": "Premium", "rarity": "Pink", "unlocked_variants": 4, "market_price_thb": 650 },
+          { "skin_name": "Reaver Operator", "tier": "Premium", "rarity": "Pink", "unlocked_variants": 4, "market_price_thb": 700 }
+        ],
+        "inventory_stats": {
+          "total_vandal_skins": 12,
+          "total_knives": 5,
+          "total_battlepass_completed": 4,
+          "estimated_market_value": 7800.00
+        }
+      },
+      {
+        "_id": "spec_rov_supreme_01",
+        "listing_id": "list_rov_002",
+        "game_type": "ROV",
+        "account_region": "Thailand (Garena)",
+        "rank": {
+          "current_rank": "Supreme Conqueror 65 Stars",
+          "peak_rank": "Conqueror 100 Stars",
+          "hero_count": 118,
+          "skin_count": 340
+        },
+        "bind_security": {
+          "garena_clean": true,
+          "facebook_linked": false,
+          "email_verified": true,
+          "risk_assessment": "CLEAN_GARENA"
+        },
+        "skins_inventory": [
+          { "skin_name": "Murad - Cyber Samurai (Dimension Breaker)", "tier": "Dimension Breaker", "rarity": "Red", "market_price_thb": 4500 },
+          { "skin_name": "Nakroth - Neon Sentinel", "tier": "Miracle", "rarity": "Gold", "market_price_thb": 1500 },
+          { "skin_name": "Violet - Demonic Blade", "tier": "SS", "rarity": "Purple", "market_price_thb": 900 }
+        ],
+        "inventory_stats": {
+          "dimension_breaker_skins": 2,
+          "ss_rare_skins": 18,
+          "estimated_market_value": 8900.00
+        }
+      }
+    ],
+
+    "escrow_room_logs": [
+      {
+        "_id": "log_escrow_demo_01",
+        "escrow_id": "escrow_val_demo",
+        "timeline_events": [
+          { "step": 1, "action": "BUYER_FUNDS_LOCKED", "amount": 7500.00, "by_user": "buyer_nont", "ts": "2026-10-18T14:10:00Z" },
+          { "step": 2, "action": "SELLER_CREDENTIALS_ENCRYPTED", "vault_key": "vlt_enc_9918", "by_user": "seller_arm", "ts": "2026-10-18T14:15:20Z" },
+          { "step": 3, "action": "INSPECTOR_REBIND_VERIFIED", "inspector": "admin_safe", "rebound_email": "vault.protect.buyer@gmail.com", "ts": "2026-10-18T14:28:45Z" }
+        ],
+        "room_messages": [
+          { "sender_id": "system", "role": "system", "text": "🔒 Escrow Vault initiated. 7,500.00 THB is safely locked in the platform.", "ts": "14:10:00" },
+          { "sender_id": "seller_arm", "role": "seller", "text": "ส่งข้อมูลไอดีเข้าห้องลับเรียบร้อยแล้วครับ แอดมินตรวจสอบได้เลยครับ", "ts": "14:15:25" },
+          { "sender_id": "admin_safe", "role": "inspector", "text": "แอดมินเข้าเช็คสกิน Kuronami และเปลี่ยนอีเมลผูกไอดีให้เรียบร้อยแล้วครับ ส่งต่อให้ผู้ซื้อตรวจรับครับ", "ts": "14:28:50" }
+        ]
+      }
+    ]
+  }
+}

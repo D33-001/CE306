@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SureID — ตลาดซื้อขายไอดีเกมและระบบคนกลาง Escrow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- 3-ZONE CENTERED-LOGO CONTAINED NAVBAR -->
+  <div class="top-nav-shell">
+    <header class="top-nav">
+      <!-- ZONE 1: LEFT NAVIGATION LINKS -->
+      <nav class="nav-left" id="main-nav">
+        <button class="nav-link active" data-view="market" onclick="app.navigate('market')">
+          <span data-i18n="nav_market">ตลาดซื้อขาย</span>
+        </button>
+        <button class="nav-link" data-view="chats" onclick="app.navigate('chats')">
+          <span data-i18n="nav_chats">ห้องแชทรวม</span>
+          <span class="nav-count" id="nav-chats-count">4</span>
+        </button>
+        <button class="nav-link" data-view="escrow" onclick="app.navigate('escrow')">
+          <span data-i18n="nav_escrow">ห้องคนกลาง Escrow</span>
+          <span class="nav-count" id="nav-escrow-count">1</span>
+        </button>
+        <button class="nav-link" data-view="blacklist" onclick="app.navigate('blacklist')">
+          <span data-i18n="nav_blacklist">เช็กประวัติโกง</span>
+        </button>
+      </nav>
+
+      <!-- ZONE 2: CENTER BRAND ANCHOR -->
+      <a class="brand-center" onclick="app.navigate('market')" title="SureID Marketplace">
+        <img src="/logo.png" alt="SureID Logo" class="brand-nav-logo" />
+      </a>
+
+      <!-- ZONE 3: RIGHT CONTROLS & COBALT CTA BUTTON -->
+      <div class="nav-right">
+        <!-- Compact Wallet Chip -->
+        <div class="wallet-box" style="cursor:pointer;" onclick="app.navigate('wallet')" title="จัดการกระเป๋าเงิน เติมเงิน ถอนเงิน ประวัติธุรกรรม">
+          <span class="wallet-label" data-i18n="wallet_label">ยอดเงิน:</span>
+          <span class="wallet-amount tabular" id="header-wallet-balance">฿35,000</span>
+          <button class="btn-topup" onclick="event.stopPropagation();app.navigate('wallet')" data-i18n="btn_topup">+ เติม</button>
+        </div>
+
+        <!-- Role Switcher -->
+        <div class="role-switcher">
+          <select id="role-select" class="role-select" onchange="app.switchRole(this.value)" title="สลับบทบาท">
+            <option value="user_buyer_01">Buyer: Nont</option>
+            <option value="user_seller_01">Seller: Arm</option>
+            <option value="user_inspector_01">Inspector</option>
+            <option value="user_owner_01">Owner</option>
+          </select>
+        </div>
+
+        <!-- Language Switcher -->
+        <button class="lang-toggle" id="lang-btn" onclick="app.toggleLanguage()">TH</button>
+
+        <!-- Auth Area (Login / Register or Signed-in user) -->
+        <div id="auth-area" class="auth-area"></div>
+
+        <!-- Primary Cobalt Squircle Button (Matches Figma CTA) -->
+        <button class="nav-cta-btn" data-view="sell" onclick="app.navigate('sell')">
+          <span data-i18n="nav_sell">+ ลงขาย</span>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <!-- MAIN APPLICATION VIEWPORT -->
+  <div id="app-viewport"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="/app.js"></script>
+</body>
+</html>
