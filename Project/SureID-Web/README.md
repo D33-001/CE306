@@ -1,4 +1,4 @@
-# Escrow Game Account & Skin Trading Vault
+# Escrow Game Account 
 
 แพลตฟอร์มกลางซื้อ-ขายไอเทมและไอดีเกมพร้อมระบบพักเงินค้ำประกัน (Escrow) และตรวจสเปคอัตโนมัติ
 
