@@ -17,9 +17,6 @@
    * **Step 5:** ปล่อยเงินเข้ากระเป๋าผู้ขาย พร้อมหักค่าธรรมเนียมตัวกลาง 5–10% เข้าแพลตฟอร์ม
 3. **เครื่องมือประเมินมูลค่าไอดีสด (Interactive Valuation Calculator):**
    * คำนวณราคาประเมินตลาดกลาง คะแนนความน่าเชื่อถือ (Trust Score) และค่าธรรมเนียมตัวกลางแบบ Partial DOM Updates ทันทีที่คลิกเลือกสกิน
-4. **Gaming Dark Mode SPA (มาตรฐาน `frontend-design` และ `no-slop-ui`):**
-   * สะอาด คมชัด ปราศจาก Glassmorphism ฟุ้งเกินจริง
-   * ขอบมน 8–12px, ขอบ 1px solid, ตอบสนองไวระดับ Sub-150ms พร้อมระบบสลับมุมมอง 4 บทบาทในคลิกเดียว (Buyer, Seller, Inspector, Owner)
 
 ---
 
@@ -32,7 +29,6 @@
 
 ### คำสั่งรันด้วยตัวเอง:
 ```bash
-cd C:\Users\sande\.gemini\antigravity\scratch\escrow-game-vault
 npm start
 # หรือโหมด dev hot-reload:
 npm run dev
